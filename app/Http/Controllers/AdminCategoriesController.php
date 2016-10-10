@@ -58,7 +58,7 @@ class AdminCategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        return "Show: $id->name";
     }
 
     /**
@@ -69,7 +69,7 @@ class AdminCategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return "Edit: $id->name";
     }
 
     /**
