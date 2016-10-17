@@ -31,10 +31,31 @@ Route::get('/', function () {
 Route::get('exemplo', 'ExemploController@exemplo');
 
 
+//--categories--\
+Route::get("categories", ['as'=>'categories','uses'=>'AdminCategoriesController@index']);
+Route::get("categories/create", ['as'=>'categories.create','uses'=>'AdminCategoriesController@create']);
+Route::post("categories/store", ['as'=>'categories.store','uses'=>'AdminCategoriesController@store']);
+Route::get("categories/edit/{id}", ['as'=>'categories.edit','uses'=>'AdminCategoriesController@edit']);
+Route::get("categories/delete/{id}", ['as'=>'categories.delete','uses'=>'AdminCategoriesController@delete']);
+Route::put("categories/update/{id}", ['as'=>'categories.update','uses'=>'AdminCategoriesController@update']);
+
+
+//--products--\\
+Route::get("products", ['as'=>'products','uses'=>'AdminProductsController@index']);
+Route::get("products/create", ['as'=>'products.create','uses'=>'AdminProductsController@create']);
+Route::post("products/store", ['as'=>'products.store','uses'=>'AdminProductsController@store']);
+Route::get("products/edit/{id}", ['as'=>'products.edit','uses'=>'AdminProductsController@edit']);
+Route::get("products/delete/{id}", ['as'=>'products.delete','uses'=>'AdminProductsController@delete']);
+Route::put("products/update/{id}", ['as'=>'products.update','uses'=>'AdminProductsController@update']);
+
+
+
+
+
 //*Route::get('admin/categories', 'AdminCategoriesController@index');
 //*Route::get('admin/products', 'AdminProductsController@index');
 
-
+//***a partir do capitulo 6***\\
 Route::patterns(['id' => '[0-9]+']);
 
 Route::group(['prefix'=>'admin'], function(){

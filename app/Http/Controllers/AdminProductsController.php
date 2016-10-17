@@ -25,8 +25,8 @@ class AdminProductsController extends Controller
     public function index()
     {
         $products = $this->products->all();
-        //$categories = Category::all(); dd($categories);
-        return view('admin.products', compact("products"));
+        return view('products.index', compact("products"));
+        //return view('admin.products', compact("products"));
     }
 
     /**
@@ -37,7 +37,7 @@ class AdminProductsController extends Controller
     public function create()
     {
         //
-        return 'Create';
+        return view('products.create');
     }
 
     /**
@@ -46,9 +46,16 @@ class AdminProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\ProductRequest $request)
     {
-        return 'Store';
+        //dd($request->all());
+
+        $form_data = $request->all();
+        $product = $this->products->fill($form_data);
+        $product->save();
+
+        return redirect()->route("products");
+
     }
 
     /**
@@ -71,7 +78,9 @@ class AdminProductsController extends Controller
     public function edit($id)
     {
 
-        return "Edit: $id->name";
+        $product = $this->products->find($id);
+        return view("products.edit", compact('product'));
+
     }
 
     /**
@@ -83,7 +92,9 @@ class AdminProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return 'Update';
+        $this->products->find($id)->update($request->all());
+        return redirect()->route("products");
+
     }
 
     /**
@@ -94,6 +105,7 @@ class AdminProductsController extends Controller
      */
     public function delete($id)
     {
-        return 'Delete';
+        $this->products->find($id)->delete();
+        return redirect()->route("products");
     }
 }

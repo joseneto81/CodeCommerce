@@ -25,8 +25,12 @@ class AdminCategoriesController extends Controller
     public function index()
     {
         $categories = $this->categories->all();
+
+        return view('categories.index', compact("categories"));
+
+
         //$categories = Category::all(); dd($categories);
-        return view('admin.categories', compact("categories"));
+        //**return view('admin.categories', compact("categories"));
     }
 
     /**
@@ -34,9 +38,9 @@ class AdminCategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view("categories.create");
     }
 
     /**
@@ -45,9 +49,15 @@ class AdminCategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\CategoryRequest $request)
     {
-        //
+
+        $form_data = $request->all();
+        $category = $this->categories->fill($form_data);
+        $category->save();
+
+        return redirect()->route("categories");
+
     }
 
     /**
@@ -69,7 +79,8 @@ class AdminCategoriesController extends Controller
      */
     public function edit($id)
     {
-        return "Edit: $id->name";
+        $category = $this->categories->find($id);
+        return view("categories.edit", compact('category'));
     }
 
     /**
@@ -79,9 +90,10 @@ class AdminCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\CategoryRequest $request, $id)
     {
-        //
+        $this->categories->find($id)->update($request->all());
+        return redirect()->route("categories");
     }
 
     /**
@@ -90,8 +102,9 @@ class AdminCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $this->categories->find($id)->delete();
+        return redirect()->route("categories");
     }
 }
