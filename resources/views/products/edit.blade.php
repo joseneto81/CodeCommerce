@@ -21,6 +21,20 @@
                 {!! Form::textarea('description', $product->description, ['class'=>'form-control']) !!}
             </div>
             <div class='form-group'>
+                {!! Form::label('description','Price:') !!}
+                {!! Form::text('price', $product->price, ['class'=>'']) !!}
+            </div>
+
+            <div class='form-group'>
+                {!! Form::label('featured','Featured:') !!}
+                {!! Form::checkbox('featured', 't', $product->featured) !!}
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {!! Form::label('recommend','Recommend:') !!}
+                {!! Form::checkbox('recommend', 't', $product->recommend) !!}
+            </div>
+
+            <div class='form-group'>
                 {!! Form::submit('Enviar Dados', ['class'=>'btn btn-primary']) !!}
 
             </div>
