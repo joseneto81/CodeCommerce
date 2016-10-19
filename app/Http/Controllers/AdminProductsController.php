@@ -92,7 +92,15 @@ class AdminProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->products->find($id)->update($request->all());
+        $form_data = $request->all();
+
+        //tratamento dos checkbox
+        if(!isset($form_data['featured']))
+            $form_data['featured'] = false;
+        if(!isset($form_data['recommend']))
+            $form_data['recommend'] = false;
+
+        $this->products->find($id)->update($form_data);
         return redirect()->route("products");
 
     }
