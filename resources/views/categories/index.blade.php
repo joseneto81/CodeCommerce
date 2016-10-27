@@ -3,6 +3,7 @@
 <h1>Index - Categories</h1>
 
 <p><a href="{{route('categories.create')}}" class='btn btn-primary'>New</a></p>
+{!!$categories->render()!!}
 <table class='table'>
     <th>Id</th>
     <th>Name</th>
@@ -20,5 +21,5 @@
     @endforeach
     </tbody>
 </table>
-
+{!!$categories->render()!!}
 @endsection

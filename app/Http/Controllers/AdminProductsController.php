@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use CodeCommerce\Http\Requests;
 use CodeCommerce\Http\Controllers\Controller;
 use CodeCommerce\Product;
+use CodeCommerce\Category;
 
 class AdminProductsController extends Controller
 {
@@ -24,7 +25,9 @@ class AdminProductsController extends Controller
      */
     public function index()
     {
-        $products = $this->products->all();
+        $products = $this->products->paginate(10);
+        //$products = $this->products->all();
+
         return view('products.index', compact("products"));
         //return view('admin.products', compact("products"));
     }
@@ -34,10 +37,10 @@ class AdminProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
-        return view('products.create');
+        $categories = $category->lists('name','id');
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -54,7 +57,7 @@ class AdminProductsController extends Controller
         $product = $this->products->fill($form_data);
         $product->save();
 
-        return redirect()->route("products");
+        return redirect()->route("products.index");
 
     }
 
@@ -75,11 +78,11 @@ class AdminProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Category $category)
     {
-
+        $categories = $category->lists('name','id');
         $product = $this->products->find($id);
-        return view("products.edit", compact('product'));
+        return view("products.edit", compact('product','categories'));
 
     }
 
@@ -101,7 +104,7 @@ class AdminProductsController extends Controller
             $form_data['recommend'] = false;
 
         $this->products->find($id)->update($form_data);
-        return redirect()->route("products");
+        return redirect()->route("products.index");
 
     }
 
@@ -114,6 +117,6 @@ class AdminProductsController extends Controller
     public function delete($id)
     {
         $this->products->find($id)->delete();
-        return redirect()->route("products");
+        return redirect()->route("products.index");
     }
 }

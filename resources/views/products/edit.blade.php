@@ -12,6 +12,12 @@
         @endif
 
         {!! Form::open(['route'=>['products.update', $product->id], 'method'=>'put']) !!}
+
+            <div class='form-group'>
+                {!! Form::label('category','Category:') !!}
+                {!! Form::select('category_id', $categories, $product->category->id, ['class'=>'form-control']) !!}
+            </div>
+
             <div class='form-group'>
                 {!! Form::label('name','Name:') !!}
                 {!! Form::text('name', $product->name, ['class'=>'form-control']) !!}
@@ -27,7 +33,7 @@
 
             <div class='form-group'>
                 {!! Form::label('featured','Featured:') !!}
-                {!! Form::checkbox('featured', 't', $product->featured) !!}
+                {!! Form::checkbox('featured', 't', $product->featured ) !!}
 
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 {!! Form::label('recommend','Recommend:') !!}

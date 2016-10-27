@@ -24,7 +24,8 @@ class AdminCategoriesController extends Controller
      */
     public function index()
     {
-        $categories = $this->categories->all();
+        //$categories = $this->categories->all();
+        $categories = $this->categories->paginate(10);
 
         return view('categories.index', compact("categories"));
 
@@ -51,12 +52,11 @@ class AdminCategoriesController extends Controller
      */
     public function store(Requests\CategoryRequest $request)
     {
-
         $form_data = $request->all();
         $category = $this->categories->fill($form_data);
         $category->save();
 
-        return redirect()->route("categories");
+        return redirect()->route("categories.index");
 
     }
 
@@ -93,7 +93,7 @@ class AdminCategoriesController extends Controller
     public function update(Requests\CategoryRequest $request, $id)
     {
         $this->categories->find($id)->update($request->all());
-        return redirect()->route("categories");
+        return redirect()->route("categories.index");
     }
 
     /**
@@ -105,6 +105,6 @@ class AdminCategoriesController extends Controller
     public function delete($id)
     {
         $this->categories->find($id)->delete();
-        return redirect()->route("categories");
+        return redirect()->route("categories.index");
     }
 }
