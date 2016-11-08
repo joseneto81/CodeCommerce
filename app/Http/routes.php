@@ -59,7 +59,7 @@ Route::put("products/update/{id}", ['as'=>'products.update','uses'=>'AdminProduc
 
 Route::patterns(['id' => '[0-9]+']);
 
-Route::group(['prefix'=>'admin'], function(){
+//Route::group(['prefix'=>'admin'], function(){
 
     Route::group(['prefix'=>'products'], function(){
 
@@ -70,6 +70,15 @@ Route::group(['prefix'=>'admin'], function(){
         Route::get('edit/{id}', ['as'=>'products.edit','uses'=>'AdminProductsController@edit']);
         Route::put('update/{id}', ['as'=>'products.update','uses'=>'AdminProductsController@update']);
         Route::get('delete/{id}', ['as'=>'products.delete','uses'=>'AdminProductsController@delete']);
+
+        Route::group(['prefix'=>'images'], function(){
+            //site.com.br/products/images/{id}
+            Route::get('{id}', ['as'=>'products.images','uses'=>'AdminProductsController@images']);
+            Route::get('create/{id}', ['as'=>'products.images.create','uses'=>'AdminProductsController@createImage']);
+            Route::post('store/{id}', ['as'=>'products.images.store','uses'=>'AdminProductsController@storeImage']);
+            Route::get('destroy/{id}', ['as'=>'products.images.destroy','uses'=>'AdminProductsController@destroyImage']);
+        });
+
     });
 
     Route::group(['prefix'=>'categories'], function(){
@@ -82,7 +91,8 @@ Route::group(['prefix'=>'admin'], function(){
         Route::put('update/{id}', ['as'=>'categories.update','uses'=>'AdminCategoriesController@update']);
         Route::get('delete/{id}', ['as'=>'categories.delete','uses'=>'AdminCategoriesController@delete']);
     });
-});
+//});
+
 
 /***
 //***a partir do capitulo 6***\\
