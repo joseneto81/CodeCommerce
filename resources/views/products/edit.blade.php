@@ -24,10 +24,14 @@
             </div>
             <div class='form-group'>
                 {!! Form::label('description','Description:') !!}
-                {!! Form::textarea('description', $product->description, ['class'=>'form-control']) !!}
+                {!! Form::textarea('description', $product->description, ['class'=>'form-control', 'rows'=>'5']) !!}
             </div>
             <div class='form-group'>
-                {!! Form::label('description','Price:') !!}
+                {!! Form::label('tag','Tags:', ['class'=>'form-label']) !!}
+                {!! Form::textarea('tags', $product->tagList, ['class'=>'form-control', 'rows'=>'1']) !!}
+            </div>
+            <div class='form-group'>
+                {!! Form::label('price','Price:') !!}
                 {!! Form::text('price', $product->price, ['class'=>'']) !!}
             </div>
 

@@ -8,6 +8,7 @@ use CodeCommerce\Http\Requests;
 use CodeCommerce\Http\Controllers\Controller;
 use CodeCommerce\Product;
 use CodeCommerce\Category;
+use CodeCommerce\Tag;
 use CodeCommerce\ProductImage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -54,11 +55,17 @@ class AdminProductsController extends Controller
      */
     public function store(Requests\ProductRequest $request)
     {
-        //dd($request->all());
+        //grava os dados no banco
 
         $form_data = $request->all();
         $product = $this->products->fill($form_data);
         $product->save();
+
+        //print $product->tags();
+        //dd($request->all());
+
+        $product->tags()->sync($this->TagsSync($request->tags)); //sincronizar as tags na tabela intermediaria(se nao existir ela cria; se a tag foi retirada do post ela tbm retira da tabela; e se existir nao faz nada)
+
 
         return redirect()->route("products.index");
 
@@ -96,7 +103,7 @@ class AdminProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\ProductRequest $request, $id)
     {
         $form_data = $request->all();
 
@@ -106,7 +113,15 @@ class AdminProductsController extends Controller
         if(!isset($form_data['recommend']))
             $form_data['recommend'] = false;
 
-        $this->products->find($id)->update($form_data);
+        //utilizando variavel da classe
+        $this->products = Product::find($id);
+        $this->products->update($form_data);
+        $this->products->tags()->sync($this->TagsSync($request->tags)); //update das tags
+
+
+        //$this->products->find($id)->update($form_data);
+        //$this->products->find($id)->tags()->sync($this->TagsSync($request->tags)); //update das tags
+
         return redirect()->route("products.index");
 
     }
@@ -119,7 +134,25 @@ class AdminProductsController extends Controller
      */
     public function delete($id)
     {
+        $this->products = Product::find($id);
+
+        //remover as tags de products_tags
+        $this->products->tags()->sync([]);//passar um array vazio para remover os que existem
+
+        foreach($this->products->images as $image)
+        {
+            if(file_exists(public_path()."/uploads/".$image->id.".".$image->extension))
+                //apagar as imagens
+                Storage::disk('public_local')->delete($image->id.".".$image->extension);
+
+            //as imagens ja sao deletedas automaticamente da tabela por causa do ON DELETE CASCADE
+
+            //remover os registros das imagens de product_images
+            //*****$image->delete();
+        }
+
         $this->products->find($id)->delete();
+
         return redirect()->route("products.index");
     }
 
@@ -168,4 +201,20 @@ class AdminProductsController extends Controller
 
         return redirect()->route("products.images", ['id'=>$product->id]);
     }
+
+    //sincronizar as tags
+    private function TagsSync($tags)
+    {
+        $taglist = array_filter(array_map('trim',explode(',', $tags))); //array_map->passa o trim e todas as posicoes // array_filter->deixa apenas as posicoes com dados
+        //criar novas tags no banco, caso nao existam, e devolver o id
+        $tagsIds = [];
+        foreach($taglist as $tagName)
+        {
+            $tagsIds[] = Tag::firstOrCreate(['name'=>$tagName])->id;
+        }
+
+        return $tagsIds;
+
+    }
+
 }
