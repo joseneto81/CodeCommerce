@@ -24,11 +24,20 @@ Route::get('user/{id?}', function($id = null){
 });
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
-Route::get('exemplo', 'ExemploController@exemplo');
+//Route::get('/', 'StoreController@index');
+//Route::get('/category/{id}', 'StoreController@category');
+//Route::get('exemplo', 'ExemploController@exemplo');
+
+
+Route::group(['prefix' => ''], function() {
+    Route::get('/', ['as' => 'index', 'uses' => 'StoreController@index']);
+    Route::get('category/{id}', ['as' => 'store.category', 'uses' => 'StoreController@category']);
+
+});
 
 /*
 //--categories--\

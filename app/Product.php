@@ -34,4 +34,18 @@ class Product extends Model
     {
         return $this->name." - ".$this->description;
     }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured','=','1');
+    }
+    public function scopeRecommend($query)
+    {
+        return $query->where('recommend','=','1');
+    }
+
+    public function scopeofCategory($query, $id)
+    {
+        return $query->where('category_id','=',$id);
+    }
 }
