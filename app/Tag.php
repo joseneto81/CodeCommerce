@@ -8,7 +8,7 @@ class Tag extends Model
 {
     protected $fillable = ['name'];
 
-    public function tags()
+    public function products()
     {
         return $this->belongsToMany('CodeCommerce\Product', 'products_tags'); //segundo parametro serve quando o nome da tabela for no plural
     }
