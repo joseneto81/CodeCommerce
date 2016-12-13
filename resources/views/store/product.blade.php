@@ -14,7 +14,7 @@
                     @if(count($product->images))
                         <img src="{{ url('uploads/'.$product->images->first()->id.'.'.$product->images->first()->extension) }}" alt="" />
                     @else
-                        <img src="{{url('images/no-img.jpg')}}" alt="" />
+                        <img src="{{ url('images/no-img.jpg') }}" alt="" />
                     @endif
 
 
@@ -42,7 +42,7 @@
                 <p>{{$product->description}}</p>
                                 <span>
                                     <span>R$ {{ $product->price}}</span>
-                                        <a href=" route('cart.add',['id'=>$product->id]) }}" class="btn btn-fefault cart">
+                                        <a href="{{ route('cart.add',['id'=>$product->id]) }}" class="btn btn-fefault cart">
                                             <i class="fa fa-shopping-cart"></i>
                                             Adicionar no Carrinho
                                         </a>
