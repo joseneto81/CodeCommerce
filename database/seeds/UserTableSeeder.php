@@ -13,7 +13,7 @@ class UserTableSeeder extends Seeder
     {
         DB::table("users")->truncate();
 
-        CodeCommerce\User::create(['name'=>'bart', 'email'=>'bart@gmail.com', 'password'=>bcrypt('123456'), 'remember_token'=>'123456']);
+        CodeCommerce\User::create(['name'=>'bart', 'email'=>'bart@gmail.com', 'password'=>bcrypt('123456'), 'remember_token'=>'123456', 'is_admin'=>'1']);
 
         factory(CodeCommerce\User::class,5)->create();
     }

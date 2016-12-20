@@ -57,10 +57,15 @@
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-user"></i> Minha conta</a></li>
+                            <li><a href="{{ route('store.orders') }}"><i class="fa fa-user"></i> Minha conta</a></li>
                             <li><a href="http://commerce.dev/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li><a href="http://commerce.dev/cart"><i class="fa fa-shopping-cart"></i> Carrinho</a></li>
-                            <li><a href="http://commerce.dev/auth/login"><i class="fa fa-lock"></i> Login</a></li>
+                            <!--<li><a href="http://commerce.dev/auth/login"><i class="fa fa-lock"></i> Login</a></li>-->
+                            @if(Auth::guest())
+                                <li><a href="/auth/login"><i class="fa fa-lock"></i> Login</a></li>
+                            @else
+                              <li><a href="/auth/logout"><i class="fa fa-lock"></i> Sair ({{ Auth::user()->name }})</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>

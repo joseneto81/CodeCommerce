@@ -29,6 +29,7 @@ Route::get('user/{id?}', function($id = null){
 });*/
 
 //Route::get('/', 'StoreController@index');
+Route::get('/home', 'StoreController@index');
 //Route::get('/category/{id}', 'StoreController@category');
 //Route::get('exemplo', 'ExemploController@exemplo');
 
@@ -43,38 +44,20 @@ Route::group(['prefix' => ''], function() {
     Route::get('cart/remove/{id}', ['as' => 'cart.remove', 'uses' => 'CartController@remove']);
     Route::post('cart/update', ['as' => 'cart.update', 'uses' => 'CartController@update']);
 
+    //Route::get('checkout/placeOrder', ['as' => 'checkout.place', 'uses' => 'CheckoutController@place']);
+
 });
 
-/*
-//--categories--\
-Route::get("categories", ['as'=>'categories','uses'=>'AdminCategoriesController@index']);
-Route::get("categories/create", ['as'=>'categories.create','uses'=>'AdminCategoriesController@create']);
-Route::post("categories/store", ['as'=>'categories.store','uses'=>'AdminCategoriesController@store']);
-Route::get("categories/edit/{id}", ['as'=>'categories.edit','uses'=>'AdminCategoriesController@edit']);
-Route::get("categories/delete/{id}", ['as'=>'categories.delete','uses'=>'AdminCategoriesController@delete']);
-Route::put("categories/update/{id}", ['as'=>'categories.update','uses'=>'AdminCategoriesController@update']);
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('checkout/placeOrder', ['as'=>'checkout.place', 'uses'=>'CheckoutController@place']);
+    Route::get('store/orders', ['as'=>'store.orders', 'uses'=>'AccountController@show']);
+});
 
-
-//--products--\\
-Route::get("products", ['as'=>'products','uses'=>'AdminProductsController@index']);
-Route::get("products/create", ['as'=>'products.create','uses'=>'AdminProductsController@create']);
-Route::post("products/store", ['as'=>'products.store','uses'=>'AdminProductsController@store']);
-Route::get("products/edit/{id}", ['as'=>'products.edit','uses'=>'AdminProductsController@edit']);
-Route::get("products/delete/{id}", ['as'=>'products.delete','uses'=>'AdminProductsController@delete']);
-Route::put("products/update/{id}", ['as'=>'products.update','uses'=>'AdminProductsController@update']);
-*/
-
-
-/*
-
-//*Route::get('admin/categories', 'AdminCategoriesController@index');
-//*Route::get('admin/products', 'AdminProductsController@index');
-*/
 
 
 Route::patterns(['id' => '[0-9]+']);
 
-//Route::group(['prefix'=>'admin'], function(){
+Route::group(['prefix'=>'admin', 'middleware'=>'auth_admin', 'where'=> ['id'=> '[0-9]+']],  function(){
 
     Route::group(['prefix'=>'products'], function(){
 
@@ -106,7 +89,20 @@ Route::patterns(['id' => '[0-9]+']);
         Route::put('update/{id}', ['as'=>'categories.update','uses'=>'AdminCategoriesController@update']);
         Route::get('delete/{id}', ['as'=>'categories.delete','uses'=>'AdminCategoriesController@delete']);
     });
-//});
+});
+
+//Route::get("auth/login", 'Auth\AuthController'); //getLogin (Auth\AuthController nativo do Laravel). deve chamar a tela onde o usuario sera redirecionado ao logar.
+//Route::post("auth/login", 'Auth\AuthController@postLogin'); //postLogin (Auth\AuthController nativo do Laravel). após logar, o usuario é redirecionado para pagina acessada anteriormente.
+//Route::get("auth/logout", 'Auth\AuthController@getLogout');
+//Route::get("auth/password", 'Auth\AuthController@getPassword');
+
+Route::controllers([
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
+    'test'     => 'TestController'
+]);
+
+
 
 
 /***
@@ -138,3 +134,29 @@ Route::group(['prefix'=>'admin'], function(){
     });
 });
 ***/
+
+/*
+//--categories--\
+Route::get("categories", ['as'=>'categories','uses'=>'AdminCategoriesController@index']);
+Route::get("categories/create", ['as'=>'categories.create','uses'=>'AdminCategoriesController@create']);
+Route::post("categories/store", ['as'=>'categories.store','uses'=>'AdminCategoriesController@store']);
+Route::get("categories/edit/{id}", ['as'=>'categories.edit','uses'=>'AdminCategoriesController@edit']);
+Route::get("categories/delete/{id}", ['as'=>'categories.delete','uses'=>'AdminCategoriesController@delete']);
+Route::put("categories/update/{id}", ['as'=>'categories.update','uses'=>'AdminCategoriesController@update']);
+
+
+//--products--\\
+Route::get("products", ['as'=>'products','uses'=>'AdminProductsController@index']);
+Route::get("products/create", ['as'=>'products.create','uses'=>'AdminProductsController@create']);
+Route::post("products/store", ['as'=>'products.store','uses'=>'AdminProductsController@store']);
+Route::get("products/edit/{id}", ['as'=>'products.edit','uses'=>'AdminProductsController@edit']);
+Route::get("products/delete/{id}", ['as'=>'products.delete','uses'=>'AdminProductsController@delete']);
+Route::put("products/update/{id}", ['as'=>'products.update','uses'=>'AdminProductsController@update']);
+*/
+
+
+/*
+
+//*Route::get('admin/categories', 'AdminCategoriesController@index');
+//*Route::get('admin/products', 'AdminProductsController@index');
+*/

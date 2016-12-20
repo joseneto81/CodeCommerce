@@ -43,7 +43,7 @@ class AdminProductsController extends Controller
      */
     public function create(Category $category)
     {
-        $categories = $category->lists('name','id');
+        $categories = $category->orderBy('name')->lists('name','id');
         return view('products.create', compact('categories'));
     }
 

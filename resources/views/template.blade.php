@@ -7,6 +7,7 @@
     <title>@yield('title')</title>
 
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ elixir('css/all.css')}}" rel="stylesheet">
 
     <!-- Fonts -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
