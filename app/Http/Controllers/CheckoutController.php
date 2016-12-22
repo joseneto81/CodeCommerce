@@ -48,7 +48,10 @@ class CheckoutController extends Controller
 
 
             //dd($order);
-            return redirect()->route('store.orders');
+            //return redirect()->route('store.orders');
+            return view('store.checkout', compact('order'));
         }
+        else
+            return view('store.checkout', ['cart'=>'empty']);
     }
 }

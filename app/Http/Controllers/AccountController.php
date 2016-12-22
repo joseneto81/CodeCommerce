@@ -17,7 +17,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function orders()
     {
         //$orders = Auth::user()->order()->paginate(5);
         $orders = Auth::user()->order;

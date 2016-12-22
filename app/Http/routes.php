@@ -50,7 +50,7 @@ Route::group(['prefix' => ''], function() {
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('checkout/placeOrder', ['as'=>'checkout.place', 'uses'=>'CheckoutController@place']);
-    Route::get('store/orders', ['as'=>'store.orders', 'uses'=>'AccountController@show']);
+    Route::get('store/orders', ['as'=>'store.orders', 'uses'=>'AccountController@orders']);
 });
 
 
@@ -88,6 +88,16 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth_admin', 'where'=> ['id'=> '
         Route::get('show/{id}', ['as'=>'categories.show','uses'=>'AdminCategoriesController@show']);
         Route::put('update/{id}', ['as'=>'categories.update','uses'=>'AdminCategoriesController@update']);
         Route::get('delete/{id}', ['as'=>'categories.delete','uses'=>'AdminCategoriesController@delete']);
+    });
+
+    Route::group(['prefix'=> 'orders', 'as' => 'admin.orders.'],function(){
+        Route::get('', ['as' => 'index', 'uses' => 'AdminOrdersController@index']);
+        Route::get('show/{id}', ['as' => 'show', 'uses' => 'AdminOrdersController@show']);
+        Route::get('create', ['as' => 'create', 'uses' => 'AdminOrdersController@create']);
+        Route::post('store', ['as' => 'store', 'uses' => 'AdminOrdersController@store']);
+        Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'AdminOrdersController@edit']);
+        Route::put('update/{id}', ['as' => 'update', 'uses' => 'AdminOrdersController@update']);
+        Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'AdminOrdersController@destroy']);
     });
 });
 
