@@ -18,7 +18,6 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->decimal('total',8,2);
             $table->smallInteger('status')->default(0);
-            $table->foreign('status_id')->references('id')->on('statues');
             $table->timestamps();
         });
     }
