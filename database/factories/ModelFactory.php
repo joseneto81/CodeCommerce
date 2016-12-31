@@ -17,6 +17,10 @@ $factory->define(CodeCommerce\User::class, function (Faker\Generator $faker) {
         'email' => $faker->safeEmail,
         'password' => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
+        'endereco' => $faker->streetName,
+        'bairro' => $faker->country,
+        'municipio' => $faker->city,
+        'estado' => $faker->state
     ];
 });
 
